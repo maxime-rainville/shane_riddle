@@ -6,7 +6,7 @@ $primes = [];
 
 // Get the prime numbers in descending order
 find_primes($primes);
-// $primes = array_reverse($primes);
+
 // Initialize
 $best_sets = [];
 $x=LIMIT;
@@ -38,7 +38,7 @@ foreach ($best_sets as $answer) {
  * Get a list of prime numbers lower than LIMIT
  * @param  array  $primes List of prime numbers
  * @param  integer $lower minimum
- * @return [type]          [description]
+ * @return array
  */
 function find_primes(&$primes, $lower=0) {
   $prime = gmp_nextprime($lower);
@@ -57,6 +57,7 @@ function find_primes(&$primes, $lower=0) {
  * the range from 2 to LIMIT given a set of prime numbers.
  * @param array $primes set of prime numbers
  * @param int $upper_limit return false if the value is over that LIMIT
+ * @param array $toughest_sums Array of the sums requiring the most coins
  * @return int|boolean Number of coins needed or FALSE if the number of coins is
  * higher than the upper limit or if a value can't be computed with the given set.
  */
@@ -83,9 +84,9 @@ function max_count_for_set($primes, $upper_limit = LIMIT, &$toughest_sums) {
 
 /**
  * Calculate the number of coins needed to achieve a sum given a set.
- * @param  [type] $set [description]
- * @param  [type] $sum [description]
- * @return [type]      [description]
+ * @param  array $set Available coin denominations
+ * @param  int $sum
+ * @return int
  */
 function count_coins_needed_to_get_sum($set, $sum) {
   if ($sum == 0) {
@@ -119,6 +120,12 @@ function count_coins_needed_to_get_sum($set, $sum) {
 
 }
 
+/**
+ * Return all subsets containing $n elements of the provided $primes set
+ * @param  array $primes
+ * @param  int $n
+ * @return [int]
+ */
 function subsets_of($primes, $n) {
   if ($n == 0) {
      yield [];
