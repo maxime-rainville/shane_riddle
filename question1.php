@@ -75,7 +75,7 @@ function max_count_for_set($primes, $upper_limit = LIMIT) {
  * @return [type]      [description]
  */
 function count_coins_needed_to_get_sum($set, $sum) {
-  if ($sum === 0) {
+  if ($sum == 0) {
     return 0;
   } elseif (empty($set)) {
     return false;
@@ -85,10 +85,20 @@ function count_coins_needed_to_get_sum($set, $sum) {
   $count = floor($sum / $prime);
   $reminder = $sum % $prime;
   if ($reminder > 0) {
+    $reminder_count = false;
+
     $reminder_count = count_coins_needed_to_get_sum($set, $reminder);
-    if ($reminder_count === false) {
-      return count_coins_needed_to_get_sum($set,$sum);
+    while ($reminder_count === false) {
+      $reminder += $prime;
+      $count--;
+      if ($count < 0) {
+        return false;
+      } else {
+        $reminder_count = count_coins_needed_to_get_sum($set, $reminder);
+      }
     }
+
+
     $count += $reminder_count;
   }
 
